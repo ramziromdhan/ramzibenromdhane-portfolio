@@ -1,0 +1,6 @@
+.about-photo .portrait { display: block; width: 100%; max-width: 12rem; aspect-ratio: 1; object-fit: cover; margin-top: 1.25rem; border: 1px solid var(--line); border-radius: 4px; }
+.about-text { max-width: var(--measure); }
+.about-text p:last-child { margin-bottom: 0; }
+.others { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.others li { display: grid; gap: 0.25rem; padding-block: 0.9rem; border-bottom: 1px solid var(--line); }
+.others strong { font-family: var(--font-display); font-size: 1.1rem; }

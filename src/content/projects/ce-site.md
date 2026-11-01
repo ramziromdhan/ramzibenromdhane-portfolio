@@ -5,8 +5,9 @@ year: 2026
 status: "Terminé"
 role: "Conception, développement et exploitation"
 tags: ["Astro", "Cloudflare", "CSP", "CI/CD"]
-featured: true
-repo: "https://github.com/REMPLACER/ramzibenromdhane.me"
+featured: false
+order: 9
+repo: "https://github.com/ramziromdhan/ramzibenromdhane.me"
 ---
 
 Un portfolio de cybersécurité doit résister à un examen technique. Ce site est donc traité comme n’importe quel service en production.
@@ -23,7 +24,7 @@ Un site statique généré par Astro, hébergé sur Cloudflare Pages. Pas de ser
 - **Intégration continue** : audit des dépendances, recherche de secrets avec Gitleaks, analyse Trivy, et actions GitHub épinglées par empreinte de commit.
 - **Dépendances sous surveillance** avec Dependabot, avec un délai d’attente avant d’adopter une version toute neuve.
 - **Divulgation responsable** : un fichier `security.txt` indique comment signaler un problème.
-- **Email du domaine** par redirection, avec SPF et DMARC.
+- **Email du domaine** par redirection.
 
 ## Leçons apprises
 

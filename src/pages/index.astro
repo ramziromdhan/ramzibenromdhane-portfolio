@@ -2,13 +2,18 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import Base from "../layouts/Base.astro";
 import ProjectRow from "../components/ProjectRow.astro";
-import { site, gates, skills, timeline, certifications } from "../data/site";
+import { site, about, gates, skills, timeline, certifications } from "../data/site";
 
-const featured = (await getCollection("projects"))
-  .filter((p) => p.data.featured)
-  .sort((a, b) => b.data.year - a.data.year);
+const featured = (await getCollection("projects", ({ data }) => data.featured && !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+// Dépose ta photo dans src/assets/ramzi.jpg (ou .png, .webp) : elle s’affiche automatiquement.
+const photos = import.meta.glob<{ default: ImageMetadata }>("../assets/ramzi.{jpg,jpeg,png,webp}", { eager: true });
+const photo = Object.values(photos)[0]?.default;
 const hasCv = existsSync(join(process.cwd(), "public", site.cv));
 const links = [
   { label: "GitHub", href: site.github },
@@ -39,6 +44,16 @@ const links = [
       </ol>
       <p><a href="/projets/devsecops-pipeline">Lire l’étude de cas du pipeline</a></p>
     </aside>
+  </section>
+
+  <section class="section container split" id="a-propos">
+    <div class="about-photo">
+      <h2>À propos</h2>
+      {photo && <Image class="portrait" src={photo} alt={`Portrait de ${site.name}`} width={320} height={320} />}
+    </div>
+    <div class="about-text">
+      {about.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
   </section>
 
   <section class="section container split" id="projets">
@@ -84,7 +99,7 @@ const links = [
         {certifications.map((c) => (
           <li>
             {c.url ? <a href={c.url}>{c.name}</a> : c.name}
-            <span class="org">{c.issuer}, {c.year}</span>
+            <span class="org">{[c.issuer, c.year].filter(Boolean).join(", ")}</span>
           </li>
         ))}
       </ul>
