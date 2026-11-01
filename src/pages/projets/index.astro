@@ -1,0 +1,17 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import ProjectRow from "../../components/ProjectRow.astro";
+
+const projects = (await getCollection("projects")).sort((a, b) => b.data.year - a.data.year);
+---
+
+<Base title="Projets" description="Études de cas DevSecOps, détection et sécurité cloud : contexte, architecture, décisions et résultats.">
+  <section class="container page-head">
+    <h1>Projets</h1>
+    <p class="lead">Chaque projet suit le même plan : contexte, architecture, décisions de sécurité, résultats et leçons apprises.</p>
+  </section>
+  <section class="container section">
+    <ul class="rows">{projects.map((p) => <ProjectRow project={p} />)}</ul>
+  </section>
+</Base>
