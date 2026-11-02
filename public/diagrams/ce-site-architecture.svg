@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" role="img" aria-labelledby="t d"><title id="t">Architecture et chaîne de livraison de ce site</title><desc id="d">Le développeur pousse le code sur GitHub. Deux chemins partent du dépôt : la chaîne CI de GitHub Actions qui contrôle le code, et Cloudflare Pages qui construit et déploie le site statique servi aux visiteurs en HTTPS.</desc>
+<rect width="760" height="250" fill="#ffffff"/>
+<g font-family="system-ui,sans-serif" font-size="14" fill="#12161d" text-anchor="middle">
+<g stroke="#0e7490" stroke-width="2" fill="#ecfeff">
+<rect x="14" y="95" width="120" height="60" rx="6"/><rect x="184" y="95" width="120" height="60" rx="6"/><rect x="354" y="20" width="170" height="60" rx="6"/><rect x="354" y="170" width="170" height="60" rx="6"/><rect x="594" y="170" width="152" height="60" rx="6"/></g>
+<g stroke="#556070" stroke-width="2" fill="none"><path d="M134 125h50M304 110l50-60M304 140l50 60M524 200h70"/></g>
+<text x="74" y="130">Développeur</text><text x="244" y="130">Dépôt GitHub</text>
+<text x="439" y="46">Chaîne CI (GitHub Actions)</text><text x="439" y="196">Cloudflare Pages</text><text x="670" y="196">Visiteur</text>
+<g font-size="12" fill="#556070"><text x="74" y="148">Code source</text><text x="244" y="148">Dependabot</text><text x="439" y="66">npm audit, Gitleaks, Trivy</text><text x="439" y="216">Build Astro, _headers</text><text x="670" y="216">HTTPS, CSP stricte</text></g>
+<g font-size="12" fill="#0e7490" font-weight="600"><text x="439" y="108">Contrôles à chaque push</text><text x="439" y="156">Déploiement de la branche principale</text></g>
+</g></svg>

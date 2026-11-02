@@ -6,12 +6,13 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import Base from "../layouts/Base.astro";
 import ProjectRow from "../components/ProjectRow.astro";
-import { site, about, gates, skills, timeline, certifications } from "../data/site";
+import { site, gates, skills, timeline, certifications } from "../data/site";
+import { hero } from "../data/hero";
 
 const featured = (await getCollection("projects", ({ data }) => data.featured && !data.draft)).sort(
   (a, b) => a.data.order - b.data.order,
 );
-// Dépose ta photo dans src/assets/ramzi.jpg (ou .png, .webp) : elle s’affiche automatiquement.
+
 const photos = import.meta.glob<{ default: ImageMetadata }>("../assets/ramzi.{jpg,jpeg,png,webp}", { eager: true });
 const photo = Object.values(photos)[0]?.default;
 const hasCv = existsSync(join(process.cwd(), "public", site.cv));
@@ -23,37 +24,42 @@ const links = [
 
 <Base>
   <section class="hero container">
-    <div>
-      <h1>{site.headline}</h1>
-      <p class="lead">{site.intro}</p>
+    <div class="portrait-wrap">
+      {photo ? (
+        <Image class="portrait" src={photo} alt={`Portrait de ${site.name}`} width={480} height={480} loading="eager" fetchpriority="high" />
+      ) : (
+        <div class="monogram" aria-hidden="true">{hero.monogram}</div>
+      )}
+    </div>
+    <div class="identity">
+      {hero.availability && <p class="status"><span class="dot" aria-hidden="true"></span>{hero.availability}</p>}
+      <h1>{site.name}</h1>
+      <p class="role">{hero.role}</p>
+      <p class="bio">{hero.bio}</p>
       <p class="actions">
         <a class="btn btn-primary" href="/projets">Voir les projets</a>
         <a class="btn" href={`mailto:${site.email}`}>Me contacter</a>
         {hasCv && <a class="btn" href={site.cv} download>Télécharger le CV</a>}
       </p>
+      {links.length > 0 && (
+        <ul class="inline-links">
+          {links.map((l) => <li><a href={l.href} rel="me noopener">{l.label}</a></li>)}
+        </ul>
+      )}
     </div>
-    <aside class="gates" aria-labelledby="gates-title">
-      <h2 id="gates-title">Six contrôles, du commit au runtime</h2>
-      <ol>
-        {gates.map((g, i) => (
-          <li class="gate">
-            <span class="gate-n">{i + 1}</span>
-            <span><strong>{g.tool}</strong><span class="gate-stops">Bloque {g.stops}.</span></span>
-          </li>
-        ))}
-      </ol>
-      <p><a href="/projets/devsecops-pipeline">Lire l’étude de cas du pipeline</a></p>
-    </aside>
   </section>
 
-  <section class="section container split" id="a-propos">
-    <div class="about-photo">
-      <h2>À propos</h2>
-      {photo && <Image class="portrait" src={photo} alt={`Portrait de ${site.name}`} width={320} height={320} />}
-    </div>
-    <div class="about-text">
-      {about.map((paragraph) => <p>{paragraph}</p>)}
-    </div>
+  <section class="container gates-band" aria-labelledby="gates-title">
+    <h2 id="gates-title">{site.headline}</h2>
+    <ol class="gates">
+      {gates.map((g, i) => (
+        <li class="gate">
+          <span class="gate-n">{i + 1}</span>
+          <span><strong>{g.tool}</strong><span class="gate-stops">Bloque {g.stops}.</span></span>
+        </li>
+      ))}
+    </ol>
+    <p class="gates-link"><a href="/projets/devsecops-pipeline">Lire l’étude de cas du pipeline</a></p>
   </section>
 
   <section class="section container split" id="projets">
