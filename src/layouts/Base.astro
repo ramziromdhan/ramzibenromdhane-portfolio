@@ -12,6 +12,8 @@ interface Props {
 const { title, description = site.description, type = "website" } = Astro.props;
 const fullTitle = title ? `${title} | ${site.name}` : site.title;
 const canonical = new URL(Astro.url.pathname, site.url).href;
+// Titre court pour les aperçus LinkedIn : au-delà de ~45 caractères, la carte le tronque.
+const ogTitle = title ?? "Ramzi Ben Romdhane | DevSecOps et SOC";
 const sameAs = [site.github, site.linkedin].filter(Boolean);
 const person = {
   "@context": "https://schema.org",
@@ -37,7 +39,7 @@ const path = Astro.url.pathname;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:site_name" content={site.name} />
-    <meta property="og:title" content={fullTitle} />
+    <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
