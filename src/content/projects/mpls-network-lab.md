@@ -9,7 +9,7 @@ featured: true
 order: 4
 ---
 
-![Topologie du réseau IP/MPLS Multi-Sites](/src/assets/Topologie_IPMPLS.png)
+![Topologie du réseau IP/MPLS Multi-Sites](../../assets/Topologie_IPMPLS.png)
 
 ## Contexte du projet
 

@@ -1,0 +1,31 @@
+---
+import { render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import { ui, routes, statusLabel, type Lang } from "../i18n/ui";
+import type { Project } from "../i18n/projects";
+
+interface Props { lang: Lang; entry: Project; slug: string; hasOther: boolean }
+const { lang, entry, slug, hasOther } = Astro.props;
+const t = ui[lang];
+const other: Lang = lang === "fr" ? "en" : "fr";
+const alt = hasOther ? routes[other].project(slug) : routes[other].projects;
+const { Content } = await render(entry);
+const { title, summary, year, status, role, tags, repo, demo } = entry.data;
+---
+
+<Base lang={lang} alt={alt} title={title} description={summary} type="article">
+  <article class="container project">
+    <p class="back"><a href={routes[lang].projects}>{t.project.back}</a></p>
+    <h1>{title}</h1>
+    <p class="lead">{summary}</p>
+    <dl class="meta">
+      <div><dt>{t.project.year}</dt><dd>{year}</dd></div>
+      <div><dt>{t.project.status}</dt><dd>{statusLabel(lang, status)}</dd></div>
+      {role && <div><dt>{t.project.role}</dt><dd>{role}</dd></div>}
+      {repo && <div><dt>{t.project.code}</dt><dd><a href={repo}>{t.project.repo}</a></dd></div>}
+      {demo && <div><dt>{t.project.demo}</dt><dd><a href={demo}>{t.project.viewDemo}</a></dd></div>}
+    </dl>
+    <p class="row-tags">{tags.map((tag) => <span class="tag">{tag}</span>)}</p>
+    <div class="prose"><Content /></div>
+  </article>
+</Base>

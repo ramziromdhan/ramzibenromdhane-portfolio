@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 770 254" role="img" aria-labelledby="t d"><title id="t">Chaîne de traitement NG-SOC</title><desc id="d">Neuf étapes, de l’attaque simulée au rapport d’incident automatisé.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#556070"/></marker></defs>
+<rect width="770" height="254" fill="#ffffff"/><g font-family="system-ui,sans-serif" text-anchor="middle" fill="#0e1626">
+<path d="M144 56.0H162" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M298 56.0H316" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M452 56.0H470" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M606 56.0H624" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M693.0 98V112H77.0V142" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M144 186.0H162" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M298 186.0H316" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M452 186.0H470" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<rect x="10" y="14" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="26" cy="30" r="11" fill="#0e7490"/><text x="26" y="35" font-size="13" font-weight="700" fill="#ffffff">1</text>
+<text x="83.0" y="46" font-size="13">Attaque simulée</text>
+<text x="83.0" y="62" font-size="13">Kali, force</text>
+<text x="83.0" y="78" font-size="13">brute SSH</text>
+<rect x="164" y="14" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="180" cy="30" r="11" fill="#0e7490"/><text x="180" y="35" font-size="13" font-weight="700" fill="#ffffff">2</text>
+<text x="237.0" y="54" font-size="13">Cible Ubuntu</text>
+<text x="237.0" y="70" font-size="13">et agent Wazuh</text>
+<rect x="318" y="14" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="334" cy="30" r="11" fill="#0e7490"/><text x="334" y="35" font-size="13" font-weight="700" fill="#ffffff">3</text>
+<text x="391.0" y="54" font-size="13">Alerte du</text>
+<text x="391.0" y="70" font-size="13">SIEM Wazuh</text>
+<rect x="472" y="14" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="488" cy="30" r="11" fill="#0e7490"/><text x="488" y="35" font-size="13" font-weight="700" fill="#ffffff">4</text>
+<text x="545.0" y="54" font-size="13">Webhook vers</text>
+<text x="545.0" y="70" font-size="13">n8n</text>
+<rect x="626" y="14" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="642" cy="30" r="11" fill="#0e7490"/><text x="642" y="35" font-size="13" font-weight="700" fill="#ffffff">5</text>
+<text x="699.0" y="54" font-size="13">Cas dans</text>
+<text x="699.0" y="70" font-size="13">TheHive 5</text>
+<rect x="10" y="144" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="26" cy="160" r="11" fill="#0e7490"/><text x="26" y="165" font-size="13" font-weight="700" fill="#ffffff">6</text>
+<text x="83.0" y="184" font-size="13">Analyse MISP</text>
+<text x="83.0" y="200" font-size="13">et Cortex</text>
+<rect x="164" y="144" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="180" cy="160" r="11" fill="#0e7490"/><text x="180" y="165" font-size="13" font-weight="700" fill="#ffffff">7</text>
+<text x="237.0" y="176" font-size="13">Tri et résumé</text>
+<text x="237.0" y="192" font-size="13">par LLM local</text>
+<text x="237.0" y="208" font-size="13">(Ollama)</text>
+<rect x="318" y="144" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="334" cy="160" r="11" fill="#0e7490"/><text x="334" y="165" font-size="13" font-weight="700" fill="#ffffff">8</text>
+<text x="391.0" y="176" font-size="13">Remédiation</text>
+<text x="391.0" y="192" font-size="13">automatique</text>
+<text x="391.0" y="208" font-size="13">(pare-feu)</text>
+<rect x="472" y="144" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="488" cy="160" r="11" fill="#0e7490"/><text x="488" y="165" font-size="13" font-weight="700" fill="#ffffff">9</text>
+<text x="545.0" y="176" font-size="13">Rapport</text>
+<text x="545.0" y="192" font-size="13">d’incident</text>
+<text x="545.0" y="208" font-size="13">par email</text>
+</g></svg>

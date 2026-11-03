@@ -1,18 +1,21 @@
 ---
-import type { CollectionEntry } from "astro:content";
-interface Props { project: CollectionEntry<"projects"> }
-const { project } = Astro.props;
-const { title, summary, year, status, tags } = project.data;
+import { routes, statusLabel, type Lang } from "../i18n/ui";
+import type { Project } from "../i18n/projects";
+
+interface Props { entry: Project; slug: string; lang: Lang; fallback?: boolean }
+const { entry, slug, lang, fallback = false } = Astro.props;
+const { title, summary, year, status, tags } = entry.data;
+const href = routes[fallback ? "fr" : lang].project(slug);
 ---
 
 <li>
-  <a class="row-link" href={`/projets/${project.id}`}>
+  <a class="row-link" href={href} hreflang={fallback ? "fr" : undefined}>
     <span class="row-year">{year}</span>
     <span class="row-main">
       <span class="row-title">{title}</span>
       <span class="row-summary">{summary}</span>
       <span class="row-tags">{tags.map((t) => <span class="tag">{t}</span>)}</span>
     </span>
-    <span class="row-status">{status}</span>
+    <span class="row-status">{statusLabel(lang, status)}{fallback && <span class="tag tag-lang" lang="en">FR</span>}</span>
   </a>
 </li>

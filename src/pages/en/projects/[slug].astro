@@ -1,0 +1,16 @@
+---
+import { getCollection } from "astro:content";
+import ProjectPage from "../../../components/ProjectPage.astro";
+import { slugOf, langOf } from "../../../i18n/projects";
+
+export async function getStaticPaths() {
+  const all = await getCollection("projects", ({ data }) => !data.draft);
+  const other = new Set(all.filter((p) => langOf(p) !== "en").map(slugOf));
+  return all
+    .filter((p) => langOf(p) === "en")
+    .map((entry) => ({ params: { slug: slugOf(entry) }, props: { entry, hasOther: other.has(slugOf(entry)) } }));
+}
+const { entry, hasOther } = Astro.props;
+---
+
+<ProjectPage lang="en" entry={entry} slug={Astro.params.slug} hasOther={hasOther} />

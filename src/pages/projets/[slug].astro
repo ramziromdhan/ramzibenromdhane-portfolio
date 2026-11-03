@@ -1,29 +1,16 @@
 ---
-import { getCollection, render } from "astro:content";
-import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import ProjectPage from "../../components/ProjectPage.astro";
+import { slugOf, langOf } from "../../i18n/projects";
 
 export async function getStaticPaths() {
-  const projects = await getCollection("projects", ({ data }) => !data.draft);
-  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+  const all = await getCollection("projects", ({ data }) => !data.draft);
+  const other = new Set(all.filter((p) => langOf(p) !== "fr").map(slugOf));
+  return all
+    .filter((p) => langOf(p) === "fr")
+    .map((entry) => ({ params: { slug: slugOf(entry) }, props: { entry, hasOther: other.has(slugOf(entry)) } }));
 }
-const { project } = Astro.props;
-const { Content } = await render(project);
-const { title, summary, year, status, role, tags, repo, demo } = project.data;
+const { entry, hasOther } = Astro.props;
 ---
 
-<Base title={title} description={summary} type="article">
-  <article class="container project">
-    <p class="back"><a href="/projets">Tous les projets</a></p>
-    <h1>{title}</h1>
-    <p class="lead">{summary}</p>
-    <dl class="meta">
-      <div><dt>Année</dt><dd>{year}</dd></div>
-      <div><dt>Statut</dt><dd>{status}</dd></div>
-      {role && <div><dt>Rôle</dt><dd>{role}</dd></div>}
-      {repo && <div><dt>Code</dt><dd><a href={repo}>Dépôt GitHub</a></dd></div>}
-      {demo && <div><dt>Démo</dt><dd><a href={demo}>Voir la démo</a></dd></div>}
-    </dl>
-    <p class="row-tags">{tags.map((t) => <span class="tag">{t}</span>)}</p>
-    <div class="prose"><Content /></div>
-  </article>
-</Base>
+<ProjectPage lang="fr" entry={entry} slug={Astro.params.slug} hasOther={hasOther} />

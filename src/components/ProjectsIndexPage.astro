@@ -1,0 +1,36 @@
+---
+import Base from "../layouts/Base.astro";
+import ProjectRow from "./ProjectRow.astro";
+import { content } from "../i18n/content";
+import { getProjects } from "../i18n/projects";
+import { ui, routes, type Lang } from "../i18n/ui";
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+const projects = await getProjects(lang);
+const { otherProjects } = content(lang);
+---
+
+<Base lang={lang} alt={lang === "fr" ? routes.en.projects : routes.fr.projects} title={t.projects.title} description={t.projects.description}>
+  <section class="container page-head">
+    <h1>{t.projects.title}</h1>
+    <p class="lead">{t.projects.lead}</p>
+  </section>
+  <section class="container section">
+    <ul class="rows">{projects.map((p) => <ProjectRow entry={p.entry} slug={p.slug} lang={lang} fallback={p.fallback} />)}</ul>
+  </section>
+  {otherProjects.length > 0 && (
+    <section class="container section split">
+      <h2>{t.projects.other}</h2>
+      <ul class="others">
+        {otherProjects.map((o) => (
+          <li>
+            <strong>{o.url ? <a href={o.url}>{o.title}</a> : o.title}</strong>
+            <span class="row-summary">{o.text}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>

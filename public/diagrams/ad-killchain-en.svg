@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 770 276" role="img" aria-labelledby="t d"><title id="t">Active Directory penetration test kill chain</title><desc id="d">Phase 1: from lsass.exe memory to DCSync. Phase 2: Meterpreter payload, Golden Ticket and backdoor service account.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#556070"/></marker></defs>
+<rect width="770" height="276" fill="#ffffff"/><g font-family="system-ui,sans-serif" text-anchor="middle" fill="#0e1626">
+<text x="760" y="26" text-anchor="end" font-size="13" font-weight="700" fill="#0e7490">Phase 1: proof of concept</text>
+<text x="760" y="156" text-anchor="end" font-size="13" font-weight="700" fill="#0e7490">Phase 2: full kill chain</text>
+<path d="M144 78.0H162" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M298 78.0H316" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M452 78.0H470" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M606 78.0H624" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M693.0 120V134H77.0V164" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M144 208.0H162" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M298 208.0H316" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M452 208.0H470" stroke="#556070" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<rect x="10" y="36" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="26" cy="52" r="11" fill="#0e7490"/><text x="26" y="57" font-size="13" font-weight="700" fill="#ffffff">1</text>
+<text x="83.0" y="68" font-size="13">Defender</text>
+<text x="83.0" y="84" font-size="13">disabled</text>
+<text x="83.0" y="100" font-size="13">on the host</text>
+<rect x="164" y="36" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="180" cy="52" r="11" fill="#0e7490"/><text x="180" y="57" font-size="13" font-weight="700" fill="#ffffff">2</text>
+<text x="237.0" y="68" font-size="13">lsass.exe</text>
+<text x="237.0" y="84" font-size="13">memory</text>
+<text x="237.0" y="100" font-size="13">(ProcDump)</text>
+<rect x="318" y="36" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="334" cy="52" r="11" fill="#0e7490"/><text x="334" y="57" font-size="13" font-weight="700" fill="#ffffff">3</text>
+<text x="391.0" y="60" font-size="13">NTLM and</text>
+<text x="391.0" y="76" font-size="13">Kerberos</text>
+<text x="391.0" y="92" font-size="13">extraction</text>
+<text x="391.0" y="108" font-size="13">(pypykatz)</text>
+<rect x="472" y="36" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="488" cy="52" r="11" fill="#0e7490"/><text x="488" y="57" font-size="13" font-weight="700" fill="#ffffff">4</text>
+<text x="545.0" y="68" font-size="13">Pass-the-Hash</text>
+<text x="545.0" y="84" font-size="13">to the DC</text>
+<text x="545.0" y="100" font-size="13">(impacket)</text>
+<rect x="626" y="36" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="642" cy="52" r="11" fill="#0e7490"/><text x="642" y="57" font-size="13" font-weight="700" fill="#ffffff">5</text>
+<text x="699.0" y="68" font-size="13">DCSync</text>
+<text x="699.0" y="84" font-size="13">including the</text>
+<text x="699.0" y="100" font-size="13">krbtgt account</text>
+<rect x="10" y="166" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="26" cy="182" r="11" fill="#0e7490"/><text x="26" y="187" font-size="13" font-weight="700" fill="#ffffff">6</text>
+<text x="83.0" y="198" font-size="13">Meterpreter</text>
+<text x="83.0" y="214" font-size="13">payload via</text>
+<text x="83.0" y="230" font-size="13">SMB server</text>
+<rect x="164" y="166" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="180" cy="182" r="11" fill="#0e7490"/><text x="180" y="187" font-size="13" font-weight="700" fill="#ffffff">7</text>
+<text x="237.0" y="198" font-size="13">getsystem and</text>
+<text x="237.0" y="214" font-size="13">migration into</text>
+<text x="237.0" y="230" font-size="13">lsass.exe</text>
+<rect x="318" y="166" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="334" cy="182" r="11" fill="#0e7490"/><text x="334" y="187" font-size="13" font-weight="700" fill="#ffffff">8</text>
+<text x="391.0" y="206" font-size="13">Kerberos</text>
+<text x="391.0" y="222" font-size="13">Golden Ticket</text>
+<rect x="472" y="166" width="134" height="84" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<circle cx="488" cy="182" r="11" fill="#0e7490"/><text x="488" y="187" font-size="13" font-weight="700" fill="#ffffff">9</text>
+<text x="545.0" y="198" font-size="13">backdoor_svc</text>
+<text x="545.0" y="214" font-size="13">account, domain</text>
+<text x="545.0" y="230" font-size="13">admin</text>
+</g></svg>
