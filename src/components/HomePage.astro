@@ -5,6 +5,9 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import Base from "../layouts/Base.astro";
 import ProjectRow from "./ProjectRow.astro";
+import Hero from "./home/Hero.astro";
+import TechBar from "./home/TechBar.astro";
+import { homeExtras } from "../data/home";
 import { content } from "../i18n/content";
 import { getProjects } from "../i18n/projects";
 import { ui, routes, type Lang } from "../i18n/ui";
@@ -12,45 +15,39 @@ import { ui, routes, type Lang } from "../i18n/ui";
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = ui[lang];
+const extras = homeExtras[lang];
 const c = content(lang);
 const featured = await getProjects(lang, true);
-const hasCv = existsSync(join(process.cwd(), "public", c.site.cv));
+// Le chemin du CV est accepté avec ou sans « / » initial ; il doit exister dans public/.
+const cvPath = "/" + c.site.cv.replace(/^\/+/, "");
+const hasCv = existsSync(join(process.cwd(), "public", cvPath));
 // Dépose ta photo dans src/assets/ramzi.jpg (ou .png, .webp) : elle s’affiche automatiquement.
 const photos = import.meta.glob<{ default: ImageMetadata }>("../assets/ramzi.{jpg,jpeg,png,webp}", { eager: true });
 const photo = Object.values(photos)[0]?.default;
 const links = [
-  { label: "GitHub", href: c.site.github },
-  { label: "LinkedIn", href: c.site.linkedin },
+  { label: "GitHub", href: c.site.github, icon: "github" as const },
+  { label: "LinkedIn", href: c.site.linkedin, icon: "linkedin" as const },
 ].filter((l) => l.href);
 const pipelineHref = routes[lang].project("devsecops-pipeline");
 ---
 
 <Base lang={lang} alt={lang === "fr" ? routes.en.home : routes.fr.home} description={c.site.description}>
-  <section class="hero container">
-    <div class="portrait-wrap">
-      {photo ? (
-        <Image class="portrait" src={photo} alt={t.home.portraitAlt(c.site.name)} width={480} height={480} loading="eager" fetchpriority="high" />
-      ) : (
-        <div class="monogram" aria-hidden="true">{c.hero.monogram}</div>
-      )}
-    </div>
-    <div class="identity">
-      {c.hero.availability && <p class="status"><span class="dot" aria-hidden="true"></span>{c.hero.availability}</p>}
-      <h1>{c.site.name}</h1>
-      <p class="role">{c.hero.role}</p>
-      <p class="bio">{c.hero.bio}</p>
-      <p class="actions">
-        <a class="btn btn-primary" href={routes[lang].projects}>{t.home.viewProjects}</a>
-        <a class="btn" href={`mailto:${c.site.email}`}>{t.home.contactMe}</a>
-        {hasCv && <a class="btn" href={c.site.cv} download>{t.home.downloadCv}</a>}
-      </p>
-      {links.length > 0 && (
-        <ul class="inline-links">
-          {links.map((l) => <li><a href={l.href} rel="me noopener">{l.label}</a></li>)}
-        </ul>
-      )}
-    </div>
-  </section>
+  <Hero
+    name={c.site.name}
+    role={c.hero.role}
+    bio={c.hero.bio}
+    availability={c.hero.availability}
+    monogram={c.hero.monogram}
+    photo={photo}
+    portraitAlt={t.home.portraitAlt(c.site.name)}
+    badges={extras.badges}
+    actions={{ contact: t.home.contactMe, projects: t.home.viewProjects, cv: t.home.downloadCv }}
+    projectsHref={routes[lang].projects}
+    email={c.site.email}
+    cvHref={hasCv ? cvPath : undefined}
+    links={links}
+  />
+  <TechBar label={extras.techLabel} />
 
   <section class="container gates-band" aria-labelledby="gates-title">
     <h2 id="gates-title">{c.site.headline}</h2>

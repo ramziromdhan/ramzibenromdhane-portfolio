@@ -1,5 +1,6 @@
 (function () {
   var root = document.documentElement;
+  root.classList.add("js");
   try {
     var saved = localStorage.getItem("theme");
     if (saved === "light" || saved === "dark") root.dataset.theme = saved;

@@ -1,6 +1,6 @@
 ---
 title: "DevSecOps Microservices"
-summary: "Plateforme DevSecOps composée de microservices authentifiés, de bases PostgreSQL, d'une passerelle NGINX et d'un pipeline de sécurité automatisé sur OpenShift."
+summary: "Plateforme DevSecOps composée de microservices authentifiés, de bases de données PostgreSQL, d'une passerelle NGINX et d'un pipeline de sécurité automatisé sur OpenShift."
 year: 2026
 status: "Terminé"
 tags: ["OpenShift", "Kubernetes", "DevSecOps", "Go", "FastAPI", "Kyverno", "Falco"]
@@ -9,17 +9,17 @@ featured: true
 
 # DevSecOps Microservices
 
-An example DevSecOps platform composed of authenticated microservices, PostgreSQL databases, an NGINX API gateway, Kubernetes/Helm deployment manifests, and an automated security pipeline.
+Exemple de plateforme DevSecOps composée de microservices authentifiés, de bases de données PostgreSQL, d'une passerelle API NGINX, de manifestes de déploiement Kubernetes/Helm et d'un pipeline de sécurité automatisé.
 
-The project demonstrates:
+Ce projet démontre la mise en œuvre des fonctionnalités suivantes :
 
-- JWT-based authentication and per-user authorization
-- CRUD operations for application items
-- Secure file upload and object-storage workflows
-- Container image scanning, signing, and admission policies
-- Kubernetes network policies and RBAC
-- Prometheus metrics, Grafana dashboards, and security alerts
-- SAST, SCA, security testing, IaC scanning, and DefectDojo reporting
+- Authentification basée sur JWT et autorisation par utilisateur.
+- Opérations CRUD pour la gestion des éléments de l'application.
+- Téléversement sécurisé de fichiers et gestion du stockage objet.
+- Analyse, signature des images de conteneurs et application de politiques d'admission.
+- Politiques réseau Kubernetes et contrôle d'accès RBAC.
+- Métriques Prometheus, tableaux de bord Grafana et alertes de sécurité.
+- SAST, SCA, tests de sécurité, analyse IaC et génération de rapports avec DefectDojo.
 
 ## Architecture
 
@@ -27,70 +27,73 @@ The project demonstrates:
 
 ### Services
 
-| Component | Local port | Kubernetes role |
+| Composant | Port local | Rôle dans Kubernetes |
 |---|---:|---|
-| `auth-service` | `8001` | User registration, login, JWT validation |
-| `app-service` | `8002` | Authenticated item CRUD |
-| `file-service` (Python) | `8003` | Local upload validation and storage |
-| `file-service-go` | `8003` | Multipart/presigned upload and MinIO integration |
-| `auth-db` | internal | PostgreSQL database for users |
-| `app-db` | internal | PostgreSQL database for items |
-| `gateway` | `8080` | NGINX routing, headers, and rate limiting |
-| MinIO | `9000`/`9001` | Object storage and console in Kubernetes |
+| `auth-service` | `8001` | Inscription des utilisateurs, authentification et validation JWT |
+| `app-service` | `8002` | Opérations CRUD authentifiées sur les éléments |
+| `file-service` (Python) | `8003` | Validation et stockage local des fichiers téléversés |
+| `file-service-go` | `8003` | Téléversement multipart/presigné et intégration MinIO |
+| `auth-db` | interne | Base de données PostgreSQL pour les utilisateurs |
+| `app-db` | interne | Base de données PostgreSQL pour les éléments |
+| `gateway` | `8080` | Routage NGINX, en-têtes HTTP et limitation du débit |
+| MinIO | `9000`/`9001` | Stockage objet et interface d'administration dans Kubernetes |
 
-The Docker Compose stack builds the legacy Python implementation in `services/file-service`. The GitHub Actions pipeline and the Helm/OpenShift deployment build and deploy the Go implementation in `services/file-service-go` as the `file-service` workload. These are two deployment profiles, not two file services deployed simultaneously.
+L'environnement Docker Compose construit l'ancienne implémentation Python située dans `services/file-service`. Le pipeline GitHub Actions ainsi que le déploiement Helm/OpenShift construisent et déploient l'implémentation Go située dans `services/file-service-go` sous forme de workload `file-service`.
 
-## Prerequisites
+Il s'agit de deux profils de déploiement distincts et non de deux services de gestion de fichiers déployés simultanément.
 
-For local development:
+## Prérequis
 
-- Docker Engine with Compose
-- `curl`
-- Python 3.12 or later for local security tooling
+Pour le développement local :
 
-For Kubernetes deployment:
+- Docker Engine avec Compose.
+- `curl`.
+- Python 3.12 ou version ultérieure pour les outils de sécurité locaux.
 
-- `kubectl` connected to a cluster
-- Helm 3
-- A container registry and credentials
-- Prometheus Operator if monitoring resources are enabled
-- Kyverno if image-policy enforcement is enabled
-- Falco if runtime detection is enabled
+Pour le déploiement Kubernetes :
 
-For the complete security suite, install the tools used by the scripts and pipeline, including `bandit`, `semgrep`, `trivy`, `sqlmap`, `zaproxy`, `checkov`, `kubesec`, `gitleaks`, and `cosign`.
+- `kubectl` connecté à un cluster.
+- Helm 3.
+- Un registre de conteneurs et les identifiants nécessaires.
+- Prometheus Operator si les ressources de supervision sont activées.
+- Kyverno si l'application des politiques sur les images est activée.
+- Falco si la détection des activités à l'exécution est activée.
 
-## Quick start with Docker Compose
+Pour utiliser l'ensemble des fonctionnalités de sécurité, installer les outils utilisés par les scripts et le pipeline, notamment `bandit`, `semgrep`, `trivy`, `sqlmap`, `zaproxy`, `checkov`, `kubesec`, `gitleaks` et `cosign`.
 
-1. Review the environment values in `docker-compose.yml`. Replace development-only values before using the stack outside a local environment.
-2. Start the services:
+## Démarrage rapide avec Docker Compose
+
+1. Examiner les valeurs d'environnement dans `docker-compose.yml`. Remplacer les valeurs réservées au développement avant d'utiliser l'environnement en dehors d'un environnement local.
+
+2. Démarrer les services :
 
    ```bash
    docker compose up --build
    ```
 
-3. Check the gateway:
+3. Vérifier la passerelle :
 
    ```bash
    curl http://localhost:8080/health
    ```
 
-4. Stop the stack:
+4. Arrêter l'environnement :
 
    ```bash
    docker compose down
    ```
 
-To remove the local database and upload volumes as well:
+Pour supprimer également les volumes locaux des bases de données et des fichiers téléversés :
 
 ```bash
 docker compose down -v
 ```
 
-## API usage
+## Utilisation de l'API
 
-The examples below use the gateway at `http://localhost:8080`.
+Les exemples ci-dessous utilisent la passerelle à l'adresse `http://localhost:8080`.
 
-### Register and authenticate
+### Inscription et authentification
 
 ```bash
 curl -X POST http://localhost:8080/auth/register \
@@ -103,14 +106,14 @@ TOKEN=$(curl -s -X POST http://localhost:8080/auth/token \
   | python3 -c 'import json,sys; print(json.load(sys.stdin)["access_token"])')
 ```
 
-### Current user
+### Utilisateur actuel
 
 ```bash
 curl http://localhost:8080/auth/me \
   -H "Authorization: Bearer ${TOKEN}"
 ```
 
-### Items
+### Gestion des éléments
 
 ```bash
 curl http://localhost:8080/items \
@@ -122,11 +125,11 @@ curl -X POST http://localhost:8080/items \
   -d '{"title":"First item","description":"Example item"}'
 ```
 
-Items are filtered by the authenticated user. A user cannot read or delete another user's items.
+Les éléments sont filtrés en fonction de l'utilisateur authentifié. Un utilisateur ne peut ni consulter ni supprimer les éléments appartenant à un autre utilisateur.
 
-### File upload
+### Téléversement de fichiers
 
-The Python file service accepts PDF, PNG, JPEG, TXT, and CSV files up to 10 MiB:
+Le service de gestion des fichiers Python accepte les fichiers PDF, PNG, JPEG, TXT et CSV, avec une taille maximale de 10 Mio :
 
 ```bash
 curl -X POST http://localhost:8080/upload \
@@ -134,7 +137,7 @@ curl -X POST http://localhost:8080/upload \
   -F 'file=@./example.txt'
 ```
 
-The Go file service provides additional endpoints for multipart/presigned workflows:
+Le service de gestion des fichiers Go fournit des points de terminaison supplémentaires pour les opérations de téléversement multipart et presignées :
 
 ```text
 POST  /files/initiate
@@ -147,11 +150,15 @@ GET   /upload
 POST  /upload
 ```
 
-All protected endpoints require a bearer token. Health endpoints are available at `/health`; Prometheus metrics are exposed at `/metrics` by the application services.
+Tous les points de terminaison protégés nécessitent un jeton Bearer.
 
-## Kubernetes deployment with Helm
+Les points de terminaison de vérification de l'état sont disponibles sur `/health`. Les métriques compatibles avec Prometheus sont exposées sur `/metrics` par les services applicatifs.
 
-The charts are independently released, but the current templates use the `devsecops-prod` namespace in resource metadata and service discovery. Use that namespace unless you first make the charts namespace-agnostic.
+## Déploiement Kubernetes avec Helm
+
+Les charts sont publiés indépendamment, mais les templates actuels utilisent le namespace `devsecops-prod` dans les métadonnées des ressources et la découverte des services.
+
+Utiliser ce namespace, sauf si les charts sont préalablement modifiés pour être indépendants du namespace.
 
 ```bash
 kubectl create namespace devsecops-prod
@@ -167,122 +174,146 @@ helm upgrade --install network-policies ./helm/network-policies -n devsecops-pro
 helm upgrade --install rbac ./helm/rbac -n devsecops-prod
 ```
 
-Inspect the rendered manifests before applying them:
+Examiner les manifestes générés avant leur application :
 
 ```bash
 helm template gateway ./helm/gateway -n devsecops-prod
 helm lint ./helm/gateway
 ```
 
-The gateway chart exposes a NodePort configured in `helm/gateway/values.yaml` (default `30080`). Find the node address and test it with:
+Le chart de la passerelle expose un NodePort configuré dans `helm/gateway/values.yaml` (valeur par défaut : `30080`).
+
+Récupérer l'adresse d'un nœud et tester la passerelle avec :
 
 ```bash
 NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[0].address}')
 curl "http://${NODE_IP}:30080/health"
 ```
 
-For OpenShift, the repository also contains route manifests under `openshift/routes/`.
+Pour OpenShift, le dépôt contient également des manifestes de routes dans `openshift/routes/`.
 
-### Image configuration
+### Configuration des images
 
-Update the image repositories and tags in the service chart values before deployment. The CI pipeline publishes images to Quay and uses immutable commit tags in addition to `latest`. Prefer immutable tags in production.
+Mettre à jour les dépôts et les tags des images dans les fichiers de valeurs des charts des services avant le déploiement.
 
-Do not put registry passwords, JWT secrets, MinIO credentials, or signing private keys in Git. Supply them through Kubernetes Secrets, an external secret manager, or CI/CD secret storage.
+Le pipeline CI publie les images sur Quay et utilise des tags de commit immuables en complément du tag `latest`. Privilégier les tags immuables dans les environnements de production.
 
-## Security controls
+Ne jamais stocker les mots de passe du registre, les secrets JWT, les identifiants MinIO ou les clés privées de signature dans Git.
 
-The repository includes defense-in-depth controls across the application and cluster:
+Les fournir via des Secrets Kubernetes, un gestionnaire externe de secrets ou le stockage sécurisé des secrets CI/CD.
 
-- Password hashing with bcrypt and short-lived JWT access tokens
-- Authorization checks on item operations
-- Upload size, extension, MIME type, and path-traversal protections
-- Security response headers in the services and gateway
-- NGINX request-rate limiting
-- Non-root and vulnerable-image Kyverno policies
-- Cosign image signature verification
-- Kubernetes network policies and service accounts
-- Falco custom runtime rules
-- Trivy vulnerability scanning and CycloneDX SBOM generation
+## Contrôles de sécurité
 
-Development defaults are intentionally present in local configuration for convenience. They are not production-safe. Rotate all credentials and set a strong, unique `JWT_SECRET_KEY` before deployment.
+Le dépôt intègre plusieurs mécanismes de sécurité en profondeur au niveau de l'application et du cluster :
 
-## CI/CD pipeline
+- Hachage des mots de passe avec bcrypt et jetons d'accès JWT à courte durée de validité.
+- Vérification des autorisations lors des opérations sur les éléments.
+- Protection contre les téléversements excessifs, les extensions non autorisées, les types MIME incorrects et les attaques par traversée de répertoires (Path Traversal).
+- En-têtes HTTP de sécurité dans les services et la passerelle.
+- Limitation du débit des requêtes avec NGINX.
+- Politiques Kyverno pour l'exécution sans privilèges root et les images vulnérables.
+- Vérification des signatures des images avec Cosign.
+- Politiques réseau Kubernetes et comptes de service.
+- Règles personnalisées Falco pour la détection à l'exécution.
+- Analyse des vulnérabilités avec Trivy et génération de SBOM au format CycloneDX.
 
-The workflow in `.github/workflows/pipeline.yml` runs for pushes and pull requests targeting `main`. Its main stages are:
+Des valeurs par défaut destinées au développement sont volontairement présentes dans la configuration locale pour faciliter l'utilisation. Elles ne sont pas adaptées à un environnement de production.
 
-1. **SAST** — Bandit, Semgrep, and Gitleaks
-2. **Build** — Build the authentication, application, and Go file-service images
-3. **Push** — Publish images to Quay
-4. **SCA** — Hadolint, Trivy vulnerability scans, and SBOM generation
-5. **Signing** — Sign and verify images with Cosign
-6. **IaC validation** — Checkov and Kubernetes manifest scanning
-7. **Deployment and verification** — Deploy to the configured OpenShift SNO environment and verify workload readiness
-8. **Runtime validation and reporting** — Exercise Falco detection and optionally import reports into DefectDojo
+Renouveler tous les identifiants et configurer une clé `JWT_SECRET_KEY` forte et unique avant le déploiement.
 
-DAST is not currently a standalone job in the GitHub Actions workflow. The repository provides security-test scripts and a ZAP authentication hook for authorized testing; run those checks separately against a deployed environment or add them as a pipeline gate.
+## Pipeline CI/CD
 
-Configure the required GitHub Actions secrets, including registry credentials, Cosign material, and cluster/deployment credentials, in the repository settings. Keep private keys out of workflow files and commits.
+Le workflow défini dans `.github/workflows/pipeline.yml` s'exécute lors des push et des pull requests ciblant la branche `main`.
 
-## Security testing
+Ses principales étapes sont :
 
-The full security suite expects a running Kubernetes deployment, a configured `.env.test`, and the required security tools:
+1. **SAST** — Analyse statique de sécurité avec Bandit, Semgrep et Gitleaks.
+2. **Build** — Construction des images des services d'authentification, applicatif et de gestion des fichiers en Go.
+3. **Push** — Publication des images sur Quay.
+4. **SCA** — Analyse avec Hadolint, détection des vulnérabilités avec Trivy et génération de SBOM.
+5. **Signature** — Signature et vérification des images avec Cosign.
+6. **Validation IaC** — Vérification avec Checkov et analyse des manifestes Kubernetes.
+7. **Déploiement et vérification** — Déploiement dans l'environnement OpenShift SNO configuré et vérification de l'état opérationnel des workloads.
+8. **Validation à l'exécution et reporting** — Vérification de la détection Falco et importation facultative des rapports dans DefectDojo.
+
+Le DAST n'est actuellement pas intégré comme une étape autonome dans le workflow GitHub Actions.
+
+Le dépôt fournit des scripts de tests de sécurité ainsi qu'un mécanisme d'authentification ZAP pour les tests autorisés. Ces vérifications doivent être exécutées séparément sur un environnement déployé ou ajoutées au pipeline comme étape de validation de sécurité.
+
+Configurer les secrets GitHub Actions nécessaires dans les paramètres du dépôt, notamment les identifiants du registre, les éléments de signature Cosign et les identifiants d'accès au cluster et de déploiement.
+
+Ne jamais inclure de clés privées dans les fichiers de workflow ou les commits Git.
+
+## Tests de sécurité
+
+La suite complète de tests de sécurité nécessite un déploiement Kubernetes opérationnel, un fichier `.env.test` correctement configuré et les outils de sécurité requis :
 
 ```bash
 ./tests/security/run-full-security-suite.sh
 ```
 
-The intended suite covers:
+La suite prévue couvre :
 
-- Invalid credentials and JWT enforcement
-- Per-user data isolation
-- Security headers
-- File-upload security checks
-- SQL injection checks with SQLMap
-- Gateway rate limiting
+- Les identifiants invalides et l'application des contrôles JWT.
+- L'isolation des données entre utilisateurs.
+- Les en-têtes HTTP de sécurité.
+- Les vérifications de sécurité des téléversements de fichiers.
+- Les tests d'injection SQL avec SQLMap.
+- La limitation du débit au niveau de la passerelle.
 
-Reports are written under `tests/security/results/` and are intentionally ignored by Git. The current repository does not include the helper script `tests/security/test-upload-security.sh`, which is called by `run-full-security-suite.sh`; the full script therefore requires that helper to be restored or the upload phase to be disabled before it can run successfully. The available standalone SSRF test is `tests/security/test-ssrf.sh`. Run all active checks only against systems you own or are authorized to assess.
+Les rapports sont générés dans `tests/security/results/` et sont volontairement exclus du suivi Git.
 
-## Monitoring and reporting
+Le dépôt actuel ne contient pas le script auxiliaire `tests/security/test-upload-security.sh`, appelé par `run-full-security-suite.sh`. Le script complet nécessite donc la restauration de ce fichier auxiliaire ou la désactivation de la phase de test des téléversements avant de pouvoir s'exécuter correctement.
 
-Prometheus-compatible metrics are exposed by the services. Kubernetes monitoring resources are in `monitoring/prometheus/`:
+Le test SSRF autonome disponible est `tests/security/test-ssrf.sh`.
 
-- `servicemonitor-microservices.yaml` discovers monitored services
-- `alert-rules.yaml` defines authentication-failure, crash-loop, and service-down alerts
+Exécuter tous les tests actifs uniquement sur des systèmes dont vous êtes propriétaire ou pour lesquels vous disposez d'une autorisation explicite d'évaluation.
 
-DefectDojo integration scripts are in `monitoring/defectdojo/`. Configure the local DefectDojo settings outside Git, then import generated Bandit, Semgrep, Trivy, and ZAP reports:
+## Supervision et reporting
+
+Les services exposent des métriques compatibles avec Prometheus.
+
+Les ressources de supervision Kubernetes se trouvent dans `monitoring/prometheus/` :
+
+- `servicemonitor-microservices.yaml` permet la découverte des services à superviser.
+- `alert-rules.yaml` définit les alertes liées aux échecs d'authentification, aux boucles de redémarrage des conteneurs (CrashLoop) et à l'indisponibilité des services.
+
+Les scripts d'intégration DefectDojo se trouvent dans `monitoring/defectdojo/`.
+
+Configurer les paramètres locaux de DefectDojo en dehors de Git, puis importer les rapports générés par Bandit, Semgrep, Trivy et ZAP :
 
 ```bash
 ./monitoring/defectdojo/import-reports.sh
 ```
 
-## Repository layout
+## Structure du dépôt
 
 ```text
 .
-├── .github/workflows/       CI/CD pipeline
-├── docker-compose.yml       Local multi-container environment
-├── gateway/                 NGINX configuration
-├── helm/                    Kubernetes Helm charts
-├── kyverno/                Image and workload policies
-├── monitoring/              Prometheus, Grafana, and DefectDojo integration
-├── openshift/               OpenShift-specific manifests
+├── .github/workflows/       Pipeline CI/CD
+├── docker-compose.yml       Environnement local multi-conteneurs
+├── gateway/                 Configuration NGINX
+├── helm/                    Charts Helm Kubernetes
+├── kyverno/                 Politiques de sécurité des images et des workloads
+├── monitoring/              Intégration Prometheus, Grafana et DefectDojo
+├── openshift/               Manifestes spécifiques à OpenShift
 ├── services/
-│   ├── auth-service/        FastAPI authentication service
-│   ├── app-service/         FastAPI item service
-│   ├── file-service/        FastAPI upload service
-│   └── file-service-go/     Go/ Gin MinIO-backed file service
-├── tests/security/          Security test scripts and generated reports
-└── falco/                   Runtime security rules
+│   ├── auth-service/        Service d'authentification FastAPI
+│   ├── app-service/         Service applicatif FastAPI
+│   ├── file-service/        Service de téléversement FastAPI
+│   └── file-service-go/     Service de gestion des fichiers Go/Gin avec MinIO
+├── tests/security/          Scripts de tests de sécurité et rapports générés
+└── falco/                   Règles de sécurité à l'exécution
 ```
 
-## Development guidelines
+## Directives de développement
 
-- Never commit `.env` files, credentials, private signing keys, certificates, or generated security reports.
-- Keep service-specific dependencies in the corresponding service directory.
-- Validate Helm changes with `helm lint` and `helm template`.
-- Run the relevant security checks after changing authentication, authorization, file handling, gateway rules, or deployment policies.
-- Use immutable image tags and external secret management for production deployments.
+- Ne jamais commiter de fichiers `.env`, d'identifiants, de clés privées de signature, de certificats ou de rapports de sécurité générés.
+- Conserver les dépendances spécifiques à chaque service dans son répertoire correspondant.
+- Valider les modifications Helm avec `helm lint` et `helm template`.
+- Exécuter les contrôles de sécurité appropriés après toute modification de l'authentification, des autorisations, de la gestion des fichiers, des règles de la passerelle ou des politiques de déploiement.
+- Utiliser des tags d'images immuables et une gestion externe des secrets pour les déploiements en production.
 
-## License
+## Licence
 
-No license file is currently included in this repository. Add a license before distributing the project.
+Aucun fichier de licence n'est actuellement inclus dans ce dépôt.Ajouter une licence avant de distribuer le projet.

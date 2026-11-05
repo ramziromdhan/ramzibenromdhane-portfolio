@@ -1,14 +1,4 @@
 .others { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .others li { display: grid; gap: 0.25rem; padding-block: 0.9rem; border-bottom: 1px solid var(--line); }
 .others strong { font-family: var(--font-display); font-size: 1.1rem; }
-
-/* Sélecteur de langue FR / EN dans l’en-tête */
-.lang { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 6px; overflow: hidden; }
-.site-header nav .lang a { padding: 0.35rem 0.65rem; font-size: 0.85rem; font-weight: 600; text-decoration: none; color: var(--muted); }
-.site-header nav .lang a:hover { color: var(--accent-text); text-decoration: none; }
-.site-header nav .lang a[aria-current] { background: var(--accent); color: var(--on-accent); text-decoration: none; }
 .tag-lang { margin-left: 0.5rem; padding-block: 0; font-size: 0.75rem; }
-
-/* En-tête : les liens passent à la ligne sur petit écran au lieu de déborder */
-.site-header nav { flex-wrap: wrap; gap: 0.6rem 1.1rem; }
-@media (min-width: 40rem) { .site-header nav { gap: 0.6rem 1.5rem; } }

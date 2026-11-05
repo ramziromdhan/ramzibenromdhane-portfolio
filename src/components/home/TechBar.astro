@@ -1,0 +1,11 @@
+---
+import { techbar } from "../../data/home";
+interface Props { label: string }
+const { label } = Astro.props;
+---
+
+<section class="container techbar-wrap" aria-label={label}>
+  <ul class="techbar">
+    {techbar.map((tool) => <li class="techchip">{tool}</li>)}
+  </ul>
+</section>

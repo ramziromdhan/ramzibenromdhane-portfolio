@@ -3,7 +3,7 @@ import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   site: "https://ramzibenromdhane.me",
-  integrations: [sitemap()],
+  integrations: [sitemap({ i18n: { defaultLocale: "fr", locales: { fr: "fr-FR", en: "en-US" } } })],
   // Aucune feuille de style en ligne : permet une CSP avec style-src 'self' seul.
   build: { inlineStylesheets: "never" },
   // Pas de coloration syntaxique : Shiki injecte des attributs style en ligne, bloqués par la CSP.

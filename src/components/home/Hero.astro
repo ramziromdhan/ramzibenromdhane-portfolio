@@ -1,0 +1,55 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Icon from "../ui/Icon.astro";
+import type { IconName } from "../../data/icons";
+
+interface Props {
+  name: string;
+  role: string;
+  bio: string;
+  availability?: string;
+  monogram: string;
+  photo?: ImageMetadata;
+  portraitAlt: string;
+  badges: { icon: IconName; label: string }[];
+  actions: { contact: string; projects: string; cv: string };
+  projectsHref: string;
+  email: string;
+  cvHref?: string;
+  links: { label: string; href: string; icon: IconName }[];
+}
+const { name, role, bio, availability, monogram, photo, portraitAlt, badges, actions, projectsHref, email, cvHref, links } = Astro.props;
+const [first, ...rest] = name.split(" ");
+---
+
+<div class="hero-wrap">
+  <section class="container hero">
+    <div class="hero-copy">
+      {availability && <p class="status"><span class="dot" aria-hidden="true"></span>{availability}</p>}
+      <h1><span class="name-first">{first}</span> {rest.join(" ")}</h1>
+      <p class="role">{role}</p>
+      <p class="bio">{bio}</p>
+      <p class="actions">
+        <a class="btn btn-primary" href={`mailto:${email}`}><Icon name="mail" />{actions.contact}</a>
+        <a class="btn" href={projectsHref}>{actions.projects}</a>
+        {cvHref && <a class="btn" href={cvHref} download><Icon name="download" />{actions.cv}</a>}
+        {links.map((l) => <a class="btn btn-icon" href={l.href} rel="me noopener" aria-label={l.label} title={l.label}><Icon name={l.icon} size={20} /></a>)}
+      </p>
+    </div>
+    <div class="hero-visual">
+      <div class="portrait-stage">
+        <div class="portrait-disc">
+          {photo ? (
+            <Image src={photo} alt={portraitAlt} width={560} height={560} loading="eager" fetchpriority="high" />
+          ) : (
+            <div class="monogram" aria-hidden="true">{monogram}</div>
+          )}
+        </div>
+        {badges.map((b, i) => (
+          <span class={`badge badge-${i + 1}`}><Icon name={b.icon} size={14} />{b.label}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+</div>

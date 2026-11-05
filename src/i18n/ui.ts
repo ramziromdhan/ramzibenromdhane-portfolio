@@ -9,7 +9,8 @@ export const routes = {
 export const ui = {
   fr: {
     htmlLang: "fr", ogLocale: "fr_FR", skip: "Aller au contenu", mainNav: "Principal", langLabel: "Langue",
-    nav: { projects: "Projets", background: "Parcours", contact: "Contact" },
+    menu: "Menu", closeMenu: "Fermer le menu",
+    nav: { projects: "Projets", skills: "Compétences", background: "Parcours", contact: "Contact" },
     theme: "Basculer entre thème clair et thème sombre",
     footer: "Site statique Astro, hébergé sur Cloudflare Pages.",
     howBuilt: "Comment ce site est construit",
@@ -32,7 +33,8 @@ export const ui = {
   },
   en: {
     htmlLang: "en", ogLocale: "en_US", skip: "Skip to content", mainNav: "Main", langLabel: "Language",
-    nav: { projects: "Projects", background: "Background", contact: "Contact" },
+    menu: "Menu", closeMenu: "Close menu",
+    nav: { projects: "Projects", skills: "Skills", background: "Background", contact: "Contact" },
     theme: "Switch between light and dark theme",
     footer: "Static Astro site hosted on Cloudflare Pages.",
     howBuilt: "How this site is built",
