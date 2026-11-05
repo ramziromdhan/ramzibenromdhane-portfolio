@@ -78,7 +78,7 @@ const person = {
       <slot />
     </main>
     <footer class="container site-footer">
-      <p>© {new Date().getFullYear()} {site.name}. {t.footer}</p>
+      <p>{t.builtBy} {site.name}. © {new Date().getFullYear()} {t.allRightsReserved}</p>
       <p><a href={routes[lang].project("ce-site")}>{t.howBuilt}</a></p>
     </footer>
     <script is:inline src="/menu.js"></script>
