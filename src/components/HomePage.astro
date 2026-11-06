@@ -19,8 +19,14 @@ const extras = homeExtras[lang];
 const c = content(lang);
 const featured = await getProjects(lang, true);
 // Le chemin du CV est accepté avec ou sans « / » initial ; il doit exister dans public/.
-const cvPath = "/" + c.site.cv.replace(/^\/+/, "");
-const hasCv = existsSync(join(process.cwd(), "public", cvPath));
+
+const cvPath = c.site.cv ? "/" + c.site.cv.replace(/^\/+/, "") : "";
+const cvFile = join(process.cwd(), "public", cvPath);
+if (cvPath && !existsSync(cvFile)) {
+  console.warn(`[portfolio] CV introuvable : ${cvFile} (cwd = ${process.cwd()})`);
+}
+const hasCv = Boolean(cvPath);
+
 // Dépose ta photo dans src/assets/ramzi.jpg (ou .png, .webp) : elle s’affiche automatiquement.
 const photos = import.meta.glob<{ default: ImageMetadata }>("../assets/ramzi.{jpg,jpeg,png,webp}", { eager: true });
 const photo = Object.values(photos)[0]?.default;
