@@ -23,6 +23,7 @@ export const gates = [
   { tool: "Gitleaks", stops: "les secrets commités dans le dépôt" },
   { tool: "Semgrep et Bandit", stops: "les failles de code, dès l’analyse statique" },
   { tool: "Hadolint", stops: "les Dockerfile mal construits" },
+  { tool: "Clair", stops: "les vulnérabilités dans les images Docker" },
   { tool: "Trivy", stops: "les dépendances et images vulnérables" },
   { tool: "Cosign", stops: "les images non signées" },
   { tool: "Kyverno", stops: "les manifests non conformes, à l’admission" },
