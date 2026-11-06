@@ -10,7 +10,7 @@ export const site = {
   email: "contact@ramzibenromdhane.me",
   github: "https://github.com/ramziromdhan",
   linkedin: "https://www.linkedin.com/in/ramzi-benromdhan/",
-  cv: "CV_Ramzi_Ben_romdhane.pdf",
+  cv: "CV_Ramzi_Ben_Romdhane.pdf",
 };
 
 export const about = [
